@@ -39,9 +39,14 @@ jobs:
       - name: Get latest tag
         id: get_latest_tag
         run: |
-          latest_tag=$(git describe --tags --abbrev=0 2>&1)
-          if [[ "$latest_tag" == "fatal: No se encontraron nombres, no se puede describir nada." ]]; then
+          tag_count=$(git tag | wc -l)
+          if [[ $tag_count -eq 0 ]]; then
             latest_tag="1.0.0"
+          else
+            latest_tag=$(git describe --tags --abbrev=0 2>&1)
+            if [[ "$latest_tag" == "fatal: No se encontraron nombres, no se puede describir nada." ]]; then
+              latest_tag="1.0.0"
+            fi
           fi
           echo "::set-output name=latest_tag::$latest_tag"
       
@@ -61,3 +66,4 @@ jobs:
       - name: Print next tag
         run: |
           echo "Next tag is ${{ steps.generate_next_tag.outputs.next_tag }}"
+
