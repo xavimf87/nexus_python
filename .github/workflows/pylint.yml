@@ -1,9 +1,9 @@
-name: Pylint
+name: Code Analysis
 
 on: [push]
 
 jobs:
-  pylint:
+  install-dependencies:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -19,6 +19,22 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r src/requirements.txt
         pip install pylint
+        pip install pyflakes
+      
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
       
     - name: Run Pylint
       run: pylint src/ --rcfile=.pylintrc
+      
+  pyflakes:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Run Pyflakes
+      run: pyflakes src/
