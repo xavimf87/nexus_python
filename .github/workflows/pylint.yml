@@ -65,5 +65,11 @@ jobs:
       
       - name: Print next tag
         run: |
-          echo "Next tag is ${{ steps.generate_next_tag.outputs.next_tag }}"
+          next_tag=${{ steps.generate_next_tag.outputs.next_tag }}
+          if [[ -z "$next_tag" ]]; then
+            echo "Next tag is 1.0.0"
+          else
+            echo "Next tag is $next_tag"
+          fi
+
 
