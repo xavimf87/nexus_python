@@ -23,6 +23,7 @@ jobs:
       
   pylint:
     runs-on: ubuntu-latest
+    needs: install-dependencies
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -32,6 +33,7 @@ jobs:
       
   pyflakes:
     runs-on: ubuntu-latest
+    needs: install-dependencies
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
