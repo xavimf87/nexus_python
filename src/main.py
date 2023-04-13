@@ -33,12 +33,14 @@ class Nexus:
             response = requests.get(url, auth=auth, timeout=30)
         elif method.lower() == 'put':
             response = requests.put(url, data=data, auth=auth, timeout=30)
+        elif method.lower() == 'delete':
+            response = requests.delete(url, data=data, auth=auth, timeout=30)
         else:
             raise ValueError(f"Unsupported HTTP method: {method}")
         
         return response
 
-    def pull(self, artifact_path: str, destination_path: str):
+    def download(self, artifact_path: str, destination_path: str):
         """Download an artifact from the repository.
 
         Args:
@@ -55,7 +57,7 @@ class Nexus:
         else:
             print(f"Failed to download {artifact_path}. HTTP status code {response.status_code}")
 
-    def get_items(self, repository_name: str) -> dict:
+    def get_repository_items(self, repository_name: str) -> dict:
         """Get all items from a repository.
 
         Args:
@@ -69,8 +71,20 @@ class Nexus:
         j = response.json()
         items = j['items']
         return items
+    
+    def get_repositories(self) -> dict:
+        """Get a list of all repositories in Nexus.
 
-    def push(self, local_file_path: str, remote_file_path: str):
+        Returns:
+            dict: A JSON object containing information about all repositories.
+        """
+        repositories_url = f"{self.url}/service/rest/v1/repositories"
+        response = self._make_request(repositories_url)
+        j = response.json()
+        return j
+
+
+    def upload(self, local_file_path: str, remote_file_path: str):
         """Upload an artifact to the repository.
 
         Args:
@@ -78,7 +92,7 @@ class Nexus:
             remote_file_path (str): The remote filename to upload to.
         """
         artifact_path = remote_file_path
-        artifact_url = f"{self.url}/{artifact_path}"
+        artifact_url = f"{self.url}/repository/{artifact_path}"
         
         with open(local_file_path, 'rb') as file:
             response = self._make_request(artifact_url, method='put', data=file)
@@ -88,3 +102,17 @@ class Nexus:
             else:
                 print(f"Failed to upload {local_file_path} to {artifact_path}. "
                       f"HTTP status code {response.status_code}")
+
+    def delete(self, artifact_path: str) -> None:
+        """Delete an artifact from the repository.
+
+        Args:
+            artifact_path (str): The path of the artifact to delete, including the filename.
+
+        Returns:
+            None
+        """
+        artifact_url = f"{self.url}/repository/{artifact_path}"
+        response = self._make_request(artifact_url, method='delete')
+        if response.status_code == 204:
+            print(f"El archivo {artifact_path} ha sido eliminado correctamente.")
