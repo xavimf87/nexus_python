@@ -19,6 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install setuptools_scm
           pip install commitizen
           pip install bump2version
 
