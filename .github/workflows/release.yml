@@ -24,7 +24,9 @@ jobs:
 
       - name: Get the latest version
         id: get-version
-        run: echo "::set-output name=version::$(python -c 'import setup; print(setup.__version__)')"
+        run: | 
+          cd src/
+          echo "::set-output name=version::$(python -c 'import setup; print(setup.__version__)')"
 
       - name: Bump version if needed
         id: bump-version
@@ -33,7 +35,9 @@ jobs:
           cz bump --changelog -y && git push origin main
 
       - name: Build distribution package
-        run: python setup.py sdist bdist_wheel
+        run: |
+          cd src/
+          python setup.py sdist bdist_wheel
 
       - name: Publish package to PyPI
         env:
