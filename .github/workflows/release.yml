@@ -40,7 +40,7 @@ jobs:
       - name: Create Git tag
         if: success()
         run: |
-          git tag $(python -c "from setuptools_scm import get_version; print(get_version(root='src', version_scheme='python-simplified-semver', local_scheme=lambda _: ''))")
+          git tag $(python -c "from setuptools_scm import get_version; print(get_version(root='..', version_scheme='python-simplified-semver', relative_to=__file__,local_scheme=lambda _: ''))")
           git push origin --tags
 
       - name: Publish package to PyPI
