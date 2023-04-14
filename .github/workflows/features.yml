@@ -17,7 +17,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r src/requirements.txt
         pip install pylint
-        pylint src/ --rcfile=.pylintrc
+        pylint src/ --rcfile=src/.pylintrc
       
   pyflakes:
     runs-on: ubuntu-latest
