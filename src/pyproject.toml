@@ -2,3 +2,6 @@
 dynamic = ["version"]
 [tool.setuptools_scm]
 write_to = "nexus_python/src/_version_.py"
+version_scheme = "python-simplified-semver"
+local_scheme = "dirty-tag"
+tag_regex = "v[0-9]+.*"

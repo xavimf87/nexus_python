@@ -3,11 +3,11 @@ from setuptools_scm import get_version
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-    
+
 
 setup(
     name="nexus_python",
-    version=get_version(root='..', relative_to=__file__),
+    version=get_version(root='..',version_scheme='python-simplified-semver',relative_to=__file__),
     author="Xavi Martinez",
     author_email="xavimartinezfa@gmail.com",
     description="A Python package that simplifies interaction with Nexus, a software artifact management platform. With this library, you can easily perform upload, download, and retrieve operations for Nexus repositories and repository items.",

@@ -37,6 +37,12 @@ jobs:
       - name: Build distribution package
         run: python src/setup.py sdist bdist_wheel
 
+      - name: Create Git tag
+        if: success()
+        run: |
+          git tag $(python -c "from setuptools_scm import get_version; print(get_version(root='src', version_scheme='python-simplified-semver', local_scheme=lambda _: ''))")
+          git push origin --tags
+
       - name: Publish package to PyPI
         env:
           TWINE_USERNAME: __token__
