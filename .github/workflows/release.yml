@@ -14,7 +14,7 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "Xavi Martinez"
+          git config --global user.name "Xavier Martinez"
           git config --global user.email "xavimartinezfa@gmail.com"
 
       - name: Install dependencies
@@ -24,9 +24,7 @@ jobs:
 
       - name: Get the latest version
         id: get-version
-        run: | 
-          cd src/
-          echo "::set-output name=version::$(python -c 'import setup; print(setup.__version__)')"
+        run: echo "::set-output name=version::$(python -c 'import src.setup; print(src.setup.__version__)')"
 
       - name: Bump version if needed
         id: bump-version
@@ -35,9 +33,7 @@ jobs:
           cz bump --changelog -y && git push origin main
 
       - name: Build distribution package
-        run: |
-          cd src/
-          python setup.py sdist bdist_wheel
+        run: python src/setup.py sdist bdist_wheel
 
       - name: Publish package to PyPI
         env:
