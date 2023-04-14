@@ -22,6 +22,7 @@ jobs:
           pip install setuptools_scm
           pip install commitizen
           pip install bump2version
+          pip install twine
 
       - name: Get the latest version
         id: get-version
