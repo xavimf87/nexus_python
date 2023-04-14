@@ -1,0 +1,4 @@
+[project]
+dynamic = ["version"]
+[tool.setuptools_scm]
+write_to = "nexus_python/src/_version_.py"
